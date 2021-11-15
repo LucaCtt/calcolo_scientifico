@@ -15,7 +15,7 @@ xg
 xgc
 
 % Chiamo bcgstab
-[xb,resb,kb,resvb]=gradiente_coniugato(A,b,x0,tol,kmax);
+[xb,resb,kb,resvb]=bcgstab(A,b,x0,tol,kmax);
 xb
 
 % Visualizzo la storia di convergenza dei tre metodi

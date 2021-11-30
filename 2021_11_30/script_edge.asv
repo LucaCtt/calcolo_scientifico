@@ -1,0 +1,57 @@
+% Leggo l'immagine trecolori.png
+% Matrice a 3 indici 150x160x3
+% == sequenza di tre matrici, rettangolari, 150x160
+% In ognuna di queste matrici vengono mantenute
+% le info relative ai colori RGB
+A=imread("trecolori","png");
+
+% Visualizzo il contenuto di A
+figure(1); clf
+image(A)
+
+% Converto i dati in double
+[n,m,dim]=size(A);
+R=double(A(:,:,1));
+G=double(A(:,:,2));
+B=double(A(:,:,3));
+
+% Nota: nei grafici le immagini sono "flippate" rispetto all'asse y,
+% perchè nelle immagini l'ordine va dal valore più alto di y a 0.
+% Nei grafici invece è il contrario
+figure(2); clf
+mesh(R)
+xlabel("x");ylabel("y");title("Red")
+
+figure(3); clf
+mesh(G)
+xlabel("x");ylabel("y");title("Green")
+
+figure(4); clf
+mesh(G)
+xlabel("x");ylabel("y");title("Blue")
+
+% Interpreto l'intensità di colore come funzione.
+% Per trovare la linea di contorno di una figura
+% individuo i punti della mesh in cui le derivate
+% parziali sono molto grandi.
+%
+% Non conosco l'espressione analitica delle funzioni:
+% devo usare le approssimazioni con le matrici a differenze finite.
+
+% Genero le matrici delle differenze finite centrate lungo e lungo y
+
+% DX è una matrice mxm
+e=0.5*ones(m,1); % h=1, distanza tra pixel
+DX=spdiags([-e,e],[-1,1],m,m);
+
+% DY è una matrice nxn
+e=0.5*ones(n,1);
+DY=spdiags([-e,e],[-1,1],n,n);
+
+% Definisco una nuova funzione che è la media delle intensità di colore dei
+% tre colori RGB.
+Z=(R+B+G)/3;
+
+% Calcolo le derivate parziali di Z
+DXZ=Z*DX';
+DYZ=DY*Z;
